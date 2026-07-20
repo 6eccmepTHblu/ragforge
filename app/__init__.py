@@ -1,0 +1,3 @@
+"""RAGForge — a provider-agnostic Retrieval-Augmented Generation service."""
+
+__version__ = "0.1.0"

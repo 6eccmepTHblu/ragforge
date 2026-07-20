@@ -1,0 +1,19 @@
+services:
+  ragforge:
+    build: .
+    image: ragforge:latest
+    ports:
+      - "8000:8000"
+    environment:
+      # Runs offline by default. Uncomment and set keys to use real providers.
+      RAGFORGE_LLM_PROVIDER: mock
+      RAGFORGE_EMBEDDING_PROVIDER: hash
+      RAGFORGE_VECTORSTORE: memory
+      RAGFORGE_DATA_DIR: /data
+      # RAGFORGE_LLM_PROVIDER: anthropic
+      # RAGFORGE_ANTHROPIC_API_KEY: ${RAGFORGE_ANTHROPIC_API_KEY}
+    volumes:
+      - ragforge_data:/data
+
+volumes:
+  ragforge_data:

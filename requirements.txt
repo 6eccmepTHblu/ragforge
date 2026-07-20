@@ -1,0 +1,14 @@
+# Core runtime — the service runs fully offline with just these.
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.6
+pydantic-settings>=2.1
+numpy>=1.26
+tiktoken>=0.6
+python-multipart>=0.0.9
+
+# Optional backends (uncomment what you need):
+# openai>=1.30
+# anthropic>=0.30
+# chromadb>=0.5
+# pypdf>=4.0
