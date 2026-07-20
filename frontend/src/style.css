@@ -250,6 +250,224 @@ body {
   font-size: 12px;
 }
 
+/* --- Streaming cursor --- */
+.cursor {
+  display: inline-block;
+  margin-left: 1px;
+  color: var(--accent);
+  animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink {
+  to {
+    opacity: 0;
+  }
+}
+
+/* --- Judge --- */
+.judge-row {
+  margin-top: 12px;
+}
+.judge {
+  margin-top: 12px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.metric-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #cbd5e1;
+  margin-bottom: 4px;
+}
+.meter {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(8, 12, 26, 0.7);
+  overflow: hidden;
+}
+.meter-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #34d399, #60a5fa);
+  transition: width 0.4s ease;
+}
+.meter-fill.alt {
+  background: linear-gradient(90deg, #a78bfa, #f0abfc);
+}
+.judge-reason {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* --- Panel header + segmented toggle --- */
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.panel-head h2 {
+  margin: 0;
+}
+.segmented {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background: rgba(8, 12, 26, 0.6);
+  border: 1px solid var(--border);
+}
+.segmented button {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.segmented button.active {
+  background: rgba(96, 165, 250, 0.18);
+  color: var(--text);
+}
+
+/* --- File drop --- */
+.filedrop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 66px;
+  padding: 14px;
+  text-align: center;
+  border: 1px dashed rgba(148, 163, 184, 0.4);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.filedrop:hover {
+  border-color: var(--accent);
+  background: rgba(96, 165, 250, 0.05);
+}
+.filedrop input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.filedrop-label {
+  font-size: 12px;
+  color: var(--muted);
+  pointer-events: none;
+  word-break: break-all;
+}
+code {
+  background: rgba(148, 163, 184, 0.15);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* --- Collection controls --- */
+.collection-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+.collection-create {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.collection-create .input {
+  width: 180px;
+  padding: 6px 8px;
+}
+
+/* --- Graph density controls --- */
+.graph-controls {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(11, 16, 32, 0.55);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(6px);
+  font-size: 11px;
+  color: var(--muted);
+}
+.graph-controls label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.graph-controls input[type="range"] {
+  width: 92px;
+  accent-color: var(--accent);
+}
+.graph-controls b {
+  min-width: 26px;
+  text-align: right;
+  color: var(--text);
+}
+
+/* --- Documents list --- */
+.doc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.doc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(8, 12, 26, 0.5);
+  border: 1px solid var(--border);
+}
+.doc-name {
+  font-size: 13px;
+  word-break: break-all;
+}
+.doc-meta {
+  font-size: 11px;
+  color: var(--muted);
+}
+.btn-danger {
+  background: transparent;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  color: var(--danger);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: rgba(248, 113, 113, 0.12);
+}
+.btn-danger:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.btn-danger.full {
+  width: 100%;
+  margin-top: 14px;
+}
+
 /* --- Graph --- */
 .graph-main {
   min-height: 0;

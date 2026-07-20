@@ -79,6 +79,22 @@ class JudgeResponse(BaseModel):
     reasoning: str
 
 
+# --- Documents & deletion ------------------------------------------------
+class DocumentInfo(BaseModel):
+    source: str
+    chunks: int
+
+
+class DocumentsResponse(BaseModel):
+    collection: str
+    documents: list[DocumentInfo]
+
+
+class DeleteResponse(BaseModel):
+    collection: str
+    deleted: int
+
+
 # --- Knowledge graph -----------------------------------------------------
 class GraphNodeModel(BaseModel):
     id: str

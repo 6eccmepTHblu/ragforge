@@ -83,6 +83,14 @@ class ChromaVectorStore(VectorStore):
         except Exception:  # noqa: BLE001 - deleting a missing collection is a no-op
             pass
 
+    def delete(self, ids: list[str], collection: str) -> int:
+        if not ids:
+            return 0
+        col = self._collection(collection)
+        before = col.count()
+        col.delete(ids=ids)
+        return before - col.count()
+
     def iter_corpus(self, collection: str) -> list[ScoredChunk]:
         col = self._collection(collection)
         data = col.get(include=["documents", "metadatas"])

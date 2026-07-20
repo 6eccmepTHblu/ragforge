@@ -9,6 +9,7 @@ from fastapi.responses import RedirectResponse
 from app import __version__
 from app.api import (
     routes_collections,
+    routes_documents,
     routes_eval,
     routes_graph,
     routes_health,
@@ -39,6 +40,7 @@ def create_app() -> FastAPI:
     app.include_router(routes_ingest.router)
     app.include_router(routes_query.router)
     app.include_router(routes_collections.router)
+    app.include_router(routes_documents.router)
     app.include_router(routes_eval.router)
     app.include_router(routes_graph.router)
 

@@ -2,8 +2,12 @@ services:
   ragforge:
     build: .
     image: ragforge:latest
-    ports:
-      - "8000:8000"
+    # The API is reached by the browser through the web service at /api, so it
+    # does not need to be published. Uncomment to expose /docs directly.
+    # ports:
+    #   - "8000:8000"
+    expose:
+      - "8000"
     environment:
       # Runs offline by default. Uncomment and set keys to use real providers.
       RAGFORGE_LLM_PROVIDER: mock
@@ -14,6 +18,14 @@ services:
       # RAGFORGE_ANTHROPIC_API_KEY: ${RAGFORGE_ANTHROPIC_API_KEY}
     volumes:
       - ragforge_data:/data
+
+  web:
+    build: ./frontend
+    image: ragforge-web:latest
+    depends_on:
+      - ragforge
+    ports:
+      - "8080:80"
 
 volumes:
   ragforge_data:

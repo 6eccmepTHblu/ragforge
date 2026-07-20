@@ -100,6 +100,23 @@ class MemoryVectorStore(VectorStore):
             self._collections.pop(collection, None)
             self._save()
 
+    def delete(self, ids: list[str], collection: str) -> int:
+        col = self._collections.get(collection)
+        if col is None or not ids:
+            return 0
+        remove = set(ids)
+        keep = [i for i, cid in enumerate(col.ids) if cid not in remove]
+        removed = len(col.ids) - len(keep)
+        if removed == 0:
+            return 0
+        with self._lock:
+            col.ids = [col.ids[i] for i in keep]
+            col.texts = [col.texts[i] for i in keep]
+            col.metadatas = [col.metadatas[i] for i in keep]
+            col.matrix = col.matrix[keep] if (keep and col.matrix is not None) else None
+            self._save()
+        return removed
+
     def iter_corpus(self, collection: str) -> list[ScoredChunk]:
         col = self._collections.get(collection)
         if col is None:

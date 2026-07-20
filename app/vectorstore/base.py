@@ -57,6 +57,10 @@ class VectorStore(ABC):
     @abstractmethod
     def delete_collection(self, collection: str) -> None: ...
 
+    @abstractmethod
+    def delete(self, ids: list[str], collection: str) -> int:
+        """Delete records by id. Returns the number actually removed."""
+
     def iter_corpus(self, collection: str) -> list[ScoredChunk]:
         """Return every stored chunk (score is 0.0). Optional capability."""
         raise NotImplementedError(

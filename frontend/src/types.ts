@@ -63,3 +63,39 @@ export interface GraphResponse {
   nodes: GraphNode[];
   edges: GraphEdge[];
 }
+
+export interface DocumentInfo {
+  source: string;
+  chunks: number;
+}
+
+export interface DocumentsResponse {
+  collection: string;
+  documents: DocumentInfo[];
+}
+
+export interface DeleteResponse {
+  collection: string;
+  deleted: number;
+}
+
+export interface JudgeResponse {
+  faithfulness: number;
+  answer_relevancy: number;
+  reasoning: string;
+}
+
+export interface StreamHandlers {
+  onSources?: (sources: SourceChunk[]) => void;
+  onToken?: (token: string) => void;
+  onDone?: () => void;
+}
+
+// UI-side representation of an answer that fills in as it streams.
+export interface StreamingAnswer {
+  question: string;
+  text: string;
+  sources: SourceChunk[];
+  latencyMs: number;
+  streaming: boolean;
+}

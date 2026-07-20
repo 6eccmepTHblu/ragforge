@@ -3,8 +3,16 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import type { GraphNode, GraphResponse } from "../types";
 import { colorForGroup, useForceGraph } from "../composables/useForceGraph";
 
-const props = defineProps<{ graph: GraphResponse | null; highlightIds: string[] }>();
-const emit = defineEmits<{ (e: "select", node: GraphNode | null): void }>();
+const props = defineProps<{
+  graph: GraphResponse | null;
+  highlightIds: string[];
+  k: number;
+  minSim: number;
+}>();
+const emit = defineEmits<{
+  (e: "select", node: GraphNode | null): void;
+  (e: "params", k: number, minSim: number): void;
+}>();
 
 const canvasEl = ref<HTMLCanvasElement | null>(null);
 let engine: ReturnType<typeof useForceGraph> | null = null;
@@ -47,6 +55,25 @@ onBeforeUnmount(() => engine?.destroy());
       <span v-for="l in legend" :key="l.group" class="legend-item">
         <span class="legend-dot" :style="{ background: l.color }"></span>{{ l.group }}
       </span>
+    </div>
+
+    <div class="graph-controls">
+      <label>
+        neighbours
+        <input
+          type="range" min="1" max="12" step="1" :value="k"
+          @input="emit('params', Number(($event.target as HTMLInputElement).value), minSim)"
+        />
+        <b>{{ k }}</b>
+      </label>
+      <label>
+        min sim
+        <input
+          type="range" min="0" max="0.6" step="0.02" :value="minSim"
+          @input="emit('params', k, Number(($event.target as HTMLInputElement).value))"
+        />
+        <b>{{ minSim.toFixed(2) }}</b>
+      </label>
     </div>
 
     <div class="graph-toolbar">

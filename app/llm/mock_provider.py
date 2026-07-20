@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import json
 import re
+import time
+from collections.abc import Iterator
 
 from .base import LLMProvider, Message
 
@@ -49,3 +51,14 @@ class MockLLM(LLMProvider):
         context = context.replace("Context:", "").strip()
         grounded = _first_sentences(context, n=2) or "No relevant context was found."
         return f"[mock-llm] Based on the retrieved context: {grounded}"
+
+    def stream(
+        self, messages: list[Message], temperature: float = 0.1, max_tokens: int = 800
+    ) -> Iterator[str]:
+        """Yield the answer word by word so the UI shows a real typing effect."""
+        text = self.generate(messages, temperature=temperature, max_tokens=max_tokens)
+        words = text.split(" ")
+        for i, word in enumerate(words):
+            if i:
+                time.sleep(0.03)  # simulate an LLM's token cadence
+            yield word if i == 0 else " " + word

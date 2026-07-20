@@ -20,6 +20,9 @@ htmlcov/
 .ragforge_data/
 .env
 
+# Generated artifacts
+graphify-out/
+
 # OS / editor
 .DS_Store
 .idea/

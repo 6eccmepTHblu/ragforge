@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { nextTick, ref } from "vue";
 import type { CollectionInfo, Health } from "../types";
 
 defineProps<{
@@ -9,7 +10,26 @@ defineProps<{
 const emit = defineEmits<{
   (e: "update:collection", value: string): void;
   (e: "refresh"): void;
+  (e: "create-collection", name: string): void;
+  (e: "delete-collection"): void;
 }>();
+
+const creating = ref(false);
+const newName = ref("");
+const nameInput = ref<HTMLInputElement | null>(null);
+
+async function startCreate() {
+  creating.value = true;
+  await nextTick();
+  nameInput.value?.focus();
+}
+
+function confirmCreate() {
+  const name = newName.value.trim();
+  if (name) emit("create-collection", name);
+  newName.value = "";
+  creating.value = false;
+}
 </script>
 
 <template>
@@ -29,17 +49,38 @@ const emit = defineEmits<{
         <span class="badge">emb · {{ health.embedding_provider }}</span>
         <span class="badge">store · {{ health.vectorstore }}</span>
       </div>
-      <label class="select">
-        <span>Collection</span>
-        <select
-          :value="collection"
-          @change="emit('update:collection', ($event.target as HTMLSelectElement).value)"
-        >
-          <option v-for="c in collections" :key="c.name" :value="c.name">
-            {{ c.name }} · {{ c.chunks }}
-          </option>
-        </select>
-      </label>
+
+      <div class="collection-controls" v-if="!creating">
+        <label class="select">
+          <span>Collection</span>
+          <select
+            :value="collection"
+            @change="emit('update:collection', ($event.target as HTMLSelectElement).value)"
+          >
+            <option v-for="c in collections" :key="c.name" :value="c.name">
+              {{ c.name }} · {{ c.chunks }}
+            </option>
+          </select>
+        </label>
+        <button class="btn-ghost" title="New collection" @click="startCreate">＋</button>
+        <button class="btn-danger" title="Delete this collection" @click="emit('delete-collection')">
+          🗑
+        </button>
+      </div>
+
+      <div class="collection-create" v-else>
+        <input
+          ref="nameInput"
+          v-model="newName"
+          class="input"
+          placeholder="new-collection-name"
+          @keyup.enter="confirmCreate"
+          @keyup.esc="creating = false"
+        />
+        <button class="btn" @click="confirmCreate">Create</button>
+        <button class="btn-ghost" @click="creating = false">✕</button>
+      </div>
+
       <button class="btn-ghost" title="Refresh" @click="emit('refresh')">↻</button>
     </div>
   </header>
